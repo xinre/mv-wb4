@@ -11,5 +11,15 @@ module.exports = {
     port: '8088',
     inline: true,
     historyApiFallback: true
+  },
+  module:{
+    rules:[
+      {
+        test:/\.js$/,
+        include:path.resolve(__dirname, 'src'),
+        exclude: path.resolve(__dirname,"node_modules"),
+        loader: "babel-loader"
+      }
+    ]
   }
 }
