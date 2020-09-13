@@ -4,7 +4,10 @@
   "description": "webpack4 complie my simple vue",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "watch": "webpack --watch",
+    "dev": "webpack-dev-server --open"
   },
   "repository": {
     "type": "git",
@@ -20,5 +23,8 @@
   "dependencies": {
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "^3.11.0"
   }
 }
