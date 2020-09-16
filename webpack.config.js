@@ -6,7 +6,7 @@ const PurifyCssWebpack = require('purifycss-webpack')
 const glob = require('glob')
 
 module.exports = {
-  entry: path.join(__dirname, '/src/index.js'),
+  entry: path.join(__dirname, '/src/index.ts'),
   output: {
     path: path.join(__dirname, '/dist'),
     filename: 'bundle.js' 
@@ -43,6 +43,12 @@ module.exports = {
         include:path.resolve(__dirname, 'src'),
         exclude: path.resolve(__dirname,"node_modules"),
         loader: "babel-loader"
+      },
+      {
+        test: /\.ts$/,
+        include:path.resolve(__dirname, 'src'),
+        exclude: path.resolve(__dirname,"node_modules"),
+        use: "ts-loader"
       },
       {
         test:/\.(sc|le|c)ss$/,

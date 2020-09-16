@@ -5,6 +5,12 @@
     <title>title</title>
 </head>
 <body>
-<div id="root"></div>
+<div id="root">
+<h3>数据的双向绑定</h3>
+<div class="cell">
+  <div class="text" v-text="myText"></div>
+  <input class="input" type="text" v-model="myText" >
+</div>
+</div>
 </body>
 </html>
