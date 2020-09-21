@@ -1,7 +1,7 @@
 const test = require('./test')
 
-function text () {
-  let hello = document.createElement('div')
+function text (): HTMLElement {
+  let hello:HTMLDivElement = document.createElement('div')
   hello.innerHTML = '666'
   return hello
 }
