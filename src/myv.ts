@@ -29,7 +29,7 @@ class myv implements Myv {
         this.obverse(val)
       }
 
-      let _dir = this.directives[key];
+      let _dir = this.directives[key]
         
       Object.defineProperty(this.data, key, {
         enumerable: true,
@@ -49,6 +49,32 @@ class myv implements Myv {
     }
   }
   compile (ele) {
-
+    let nodes = ele.children
+    for( let i = 0 ;  i < nodes.length ; i++ ){
+    	let node = nodes[i]
+    	if( node.children.length ){
+    		this.compile(node)
+    	}
+    
+        if( node.hasAttribute('v-text')){
+            let attrValue = node.getAttribute('v-text')
+            this.directives[attrValue].push(new Watcher('text',node,this,attrValue,'innerHTML'))
+        }
+    
+        if( node.hasAttribute('v-model') && ( node.tagName === 'INPUT' || node.tagName === 'TEXTAREA')){
+            let _this = this;
+            node.addEventListener('input',(function(){
+            	let attrValue = node.getAttribute('v-model')
+            	_this.directives[attrValue].push(new Watcher('input',node,_this,attrValue,'value'));
+                return function () {
+                    _this.data[attrValue] = node.value;
+            	}
+            })())
+        }
+    }
   }
+}
+
+class Watcher{
+
 }
