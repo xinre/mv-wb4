@@ -3,11 +3,15 @@ interface Myv {
   compile: (ele: HTMLElement) => void
 }
 
+interface WatcherUse {
+  update: () => void
+}
+
 class myv implements Myv {
-  private config
-  private element
-  private data
-  private directives
+  config: any     // 暂时any
+  element: HTMLElement
+  data: { [key: string]: any }
+  directives: { [key: string]: any }
 
   constructor (config) {
     this.config = config
@@ -58,14 +62,14 @@ class myv implements Myv {
     
         if( node.hasAttribute('v-text')){
             let attrValue = node.getAttribute('v-text')
-            this.directives[attrValue].push(new Watcher('text',node,this,attrValue,'innerHTML'))
+            this.directives[attrValue].push(new Watcher('text', node, this, attrValue, 'innerHTML'))
         }
     
         if( node.hasAttribute('v-model') && ( node.tagName === 'INPUT' || node.tagName === 'TEXTAREA')){
-            let _this = this;
+            let _this = this
             node.addEventListener('input',(function(){
             	let attrValue = node.getAttribute('v-model')
-            	_this.directives[attrValue].push(new Watcher('input',node,_this,attrValue,'value'));
+            	_this.directives[attrValue].push(new Watcher('input', node, _this, attrValue, 'value'));
                 return function () {
                     _this.data[attrValue] = node.value;
             	}
@@ -75,6 +79,25 @@ class myv implements Myv {
   }
 }
 
-class Watcher{
+class Watcher implements WatcherUse {
+  name: string
+  el: HTMLElement
+  vm: myv
+  exp: string
+  attr: string
 
+  constructor (name, el, vm, exp, attr){
+    this.name = name
+    this.el = el
+    this.vm = vm
+    this.exp = exp
+    this.attr = attr
+
+    //更新操作
+    this.update()
+  }
+
+  update(){
+    this.el[this.attr] = this.vm.data[this.exp]
+  }
 }
